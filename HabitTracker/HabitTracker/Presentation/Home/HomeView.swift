@@ -15,11 +15,12 @@ struct HomeView: View {
     @State var currentHabit: Habit? = nil
     @StateObject var homeViewModel = HomeViewModel(addingHabitUseCase: AddingHabitUseCase(habitRepo: HabitDataRepository()), updatingHabitUseCase: UpdatingHabitUseCase(habitRepo: HabitDataRepository()), fetchingHabitsUseCase: FetchingHabitsUseCase(habitRepo: HabitDataRepository()), deletingHabitUseCase: DeletingHabitUseCase(habitRepo: HabitDataRepository()))
     @State var isPresented = false
-    @State var showLoader: Bool = true
+    @State var showLoader: Bool = false
     @State var showErrorMessageAlert: Bool = false
     @State var errorMsg: String = ""
     @State var shouldUpdateHabitDetails = false
     @State var showCompletedProgressMsg: Bool = false
+    @State var showEmptyState: Bool = false
     var body: some View {
         ZStack(alignment: .center) {
             Color.white
@@ -54,7 +55,7 @@ struct HomeView: View {
                 }
                 ScrollView {
                     VStack(content: {
-                        if showLoader && homeViewModel.habits.isEmpty {
+                        if showLoader && homeViewModel.habits.isEmpty && !showEmptyState {
                            HomeLoaderView()
                         } else {
                         ForEach(homeViewModel.habits.indices, id: \.self) { index in
@@ -84,9 +85,9 @@ struct HomeView: View {
                                                 Circle()
                                                     .trim(from: 0.0, to: Double(homeViewModel.habits[index].progress) / 100.0)
                                                     .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-                                                    .foregroundColor(.cyan)
+                                                    .foregroundColor(Color("CustomGreen"))
                                                     .frame(width:24, height: 24)
-                                                
+                            
                                                     .rotationEffect(.degrees(-90))
                                             }
                                         }
@@ -103,7 +104,7 @@ struct HomeView: View {
                     Task { await homeViewModel.fetchingHabits() }
                 }
             }.padding(.horizontal, 20)
-             if homeViewModel.habits.isEmpty && !showLoader {
+             if showEmptyState {
                     VStack {
                         Spacer()
                         Image("emptyScreen")
@@ -182,13 +183,14 @@ struct HomeView: View {
                 case .failure(msg: let msg):
                     errorMsg = msg
                     showErrorMessageAlert = true
-                default:
                     showLoader = false
+                    showEmptyState = homeViewModel.habits.isEmpty
+                case .success :
+                    showLoader = false
+                    showEmptyState = homeViewModel.habits.isEmpty
+                default:
                     break
                 }
-            }
-            .onAppear {
-               
             }
     }
 }

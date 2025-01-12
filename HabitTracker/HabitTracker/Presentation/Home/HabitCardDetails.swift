@@ -17,7 +17,7 @@ struct HabitCardDetails: View {
     @State var showAlert = false
     var body: some View {
         ZStack {
-            Color.black.opacity(0.5)
+            Color.black.opacity(0.5).ignoresSafeArea()
             VStack {
                 HStack {
                     Button(action: {

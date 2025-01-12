@@ -53,7 +53,7 @@ final class HabitDataRepository: HabitRepository {
         guard let currentUserId = currentUserId else { return [] }
         let calendar = Calendar.current
            let startOfDay = calendar.startOfDay(for: Date())
-           let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)?.addingTimeInterval(-1) 
+           let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)?.addingTimeInterval(-1)
            let startTimestamp = Timestamp(date: startOfDay)
            let endTimestamp = Timestamp(date: endOfDay ?? startOfDay)
            
