@@ -49,6 +49,15 @@
 		6C4DC10C2D32EE8B006B203D /* RequestState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC10B2D32EE8B006B203D /* RequestState.swift */; };
 		6C4DC10E2D32EF4E006B203D /* SignUpWithEmailUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC10D2D32EF4E006B203D /* SignUpWithEmailUseCase.swift */; };
 		6C4DC1112D33BD78006B203D /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1102D33BD78006B203D /* AppScreen.swift */; };
+		6C4DC1132D33BE65006B203D /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1122D33BE65006B203D /* Habit.swift */; };
+		6C4DC1162D33D95E006B203D /* HabitRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1152D33D95E006B203D /* HabitRepository.swift */; };
+		6C4DC1182D33D9F6006B203D /* HabitDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1172D33D9F6006B203D /* HabitDataRepository.swift */; };
+		6C4DC11B2D33DF81006B203D /* AddingHabitUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC11A2D33DF81006B203D /* AddingHabitUseCase.swift */; };
+		6C4DC11D2D33DFE0006B203D /* UpdatingHabitUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC11C2D33DFE0006B203D /* UpdatingHabitUseCase.swift */; };
+		6C4DC11F2D33E01E006B203D /* FetchingHabitsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC11E2D33E01E006B203D /* FetchingHabitsUseCase.swift */; };
+		6C4DC1212D33E081006B203D /* DeletingHabitUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1202D33E081006B203D /* DeletingHabitUseCase.swift */; };
+		6C4DC1232D33E0EA006B203D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */; };
+		6C4DC1252D343638006B203D /* HabitCardDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1242D343638006B203D /* HabitCardDetails.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,6 +80,15 @@
 		6C4DC10B2D32EE8B006B203D /* RequestState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestState.swift; sourceTree = "<group>"; };
 		6C4DC10D2D32EF4E006B203D /* SignUpWithEmailUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpWithEmailUseCase.swift; sourceTree = "<group>"; };
 		6C4DC1102D33BD78006B203D /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
+		6C4DC1122D33BE65006B203D /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		6C4DC1152D33D95E006B203D /* HabitRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRepository.swift; sourceTree = "<group>"; };
+		6C4DC1172D33D9F6006B203D /* HabitDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDataRepository.swift; sourceTree = "<group>"; };
+		6C4DC11A2D33DF81006B203D /* AddingHabitUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingHabitUseCase.swift; sourceTree = "<group>"; };
+		6C4DC11C2D33DFE0006B203D /* UpdatingHabitUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatingHabitUseCase.swift; sourceTree = "<group>"; };
+		6C4DC11E2D33E01E006B203D /* FetchingHabitsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingHabitsUseCase.swift; sourceTree = "<group>"; };
+		6C4DC1202D33E081006B203D /* DeletingHabitUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletingHabitUseCase.swift; sourceTree = "<group>"; };
+		6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		6C4DC1242D343638006B203D /* HabitCardDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCardDetails.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,9 +179,9 @@
 		6C4DC0AF2D32A8BD006B203D /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				6C4DC0ED2D32B504006B203D /* UseCases */,
 				6C4DC0EC2D32B4FF006B203D /* Model */,
 				6C4DC0EB2D32B33E006B203D /* Repositories */,
+				6C4DC0ED2D32B504006B203D /* UseCases */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -181,6 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				6C4DC1052D32EE1B006B203D /* HomeView.swift */,
+				6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */,
+				6C4DC1242D343638006B203D /* HabitCardDetails.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -198,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4DC0F52D32B644006B203D /* LoginDataRepository.swift */,
+				6C4DC1172D33D9F6006B203D /* HabitDataRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -214,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4DC0EE2D32B521006B203D /* LoginRepo */,
+				6C4DC1142D33D93C006B203D /* HbitRepo */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -222,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4DC0F32D32B604006B203D /* User.swift */,
+				6C4DC1122D33BE65006B203D /* Habit.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -230,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				6C4DC0F72D32B6CB006B203D /* LoginUseCases */,
+				6C4DC1192D33DF63006B203D /* HabitUseCases */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -283,6 +307,25 @@
 				6C4DC1102D33BD78006B203D /* AppScreen.swift */,
 			);
 			path = Enum;
+			sourceTree = "<group>";
+		};
+		6C4DC1142D33D93C006B203D /* HbitRepo */ = {
+			isa = PBXGroup;
+			children = (
+				6C4DC1152D33D95E006B203D /* HabitRepository.swift */,
+			);
+			path = HbitRepo;
+			sourceTree = "<group>";
+		};
+		6C4DC1192D33DF63006B203D /* HabitUseCases */ = {
+			isa = PBXGroup;
+			children = (
+				6C4DC11A2D33DF81006B203D /* AddingHabitUseCase.swift */,
+				6C4DC11C2D33DFE0006B203D /* UpdatingHabitUseCase.swift */,
+				6C4DC11E2D33E01E006B203D /* FetchingHabitsUseCase.swift */,
+				6C4DC1202D33E081006B203D /* DeletingHabitUseCase.swift */,
+			);
+			path = HabitUseCases;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,9 +428,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C4DC1212D33E081006B203D /* DeletingHabitUseCase.swift in Sources */,
 				6C4DC0FF2D32D0DB006B203D /* DatabaseManager.swift in Sources */,
 				6C4DC10A2D32EE5C006B203D /* LoginWithEmailViewModel.swift in Sources */,
+				6C4DC11D2D33DFE0006B203D /* UpdatingHabitUseCase.swift in Sources */,
 				6C4DC10C2D32EE8B006B203D /* RequestState.swift in Sources */,
+				6C4DC1232D33E0EA006B203D /* HomeViewModel.swift in Sources */,
 				6C4DC0FC2D32BCFA006B203D /* LogoutUseCase.swift in Sources */,
 				6C4DC0F42D32B604006B203D /* User.swift in Sources */,
 				6C4DC0F62D32B644006B203D /* LoginDataRepository.swift in Sources */,
@@ -395,10 +441,16 @@
 				6C4DC1062D32EE1B006B203D /* HomeView.swift in Sources */,
 				6C4DC1042D32EA4D006B203D /* UserAuthorizationState.swift in Sources */,
 				6C4DC0F92D32B6DF006B203D /* LoginWithEmailUseCase.swift in Sources */,
+				6C4DC11F2D33E01E006B203D /* FetchingHabitsUseCase.swift in Sources */,
 				6C4DC10E2D32EF4E006B203D /* SignUpWithEmailUseCase.swift in Sources */,
 				6C4DC0A32D32A848006B203D /* ContentView.swift in Sources */,
+				6C4DC11B2D33DF81006B203D /* AddingHabitUseCase.swift in Sources */,
+				6C4DC1252D343638006B203D /* HabitCardDetails.swift in Sources */,
 				6C4DC0A12D32A848006B203D /* HabitTrackerApp.swift in Sources */,
+				6C4DC1162D33D95E006B203D /* HabitRepository.swift in Sources */,
+				6C4DC1182D33D9F6006B203D /* HabitDataRepository.swift in Sources */,
 				6C4DC0F22D32B552006B203D /* LoginRepository.swift in Sources */,
+				6C4DC1132D33BE65006B203D /* Habit.swift in Sources */,
 				6C4DC1112D33BD78006B203D /* AppScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
