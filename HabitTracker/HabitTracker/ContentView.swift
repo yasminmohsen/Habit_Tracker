@@ -6,16 +6,36 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    @State private var path = [String]()
+    init() {
+            UINavigationBar.setAnimationsEnabled(false)
         }
-        .padding()
+    var body: some View {
+        NavigationStack(path: $path) {
+            ZStack {
+                Color.pink
+            }.navigationDestination(for: String.self, destination: {
+                if $0 == AppScreen.loginScreen.rawValue {
+                    LoginWithEmailView(path: $path)
+                      
+                } else {
+                    HomeView(path: $path)
+                       
+                }
+            })
+        }
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                if let user = DatabaseManager.shared.getCurrentUserID() {
+                    path.append(AppScreen.homeScreen.rawValue)
+                } else {
+                    path.append(AppScreen.loginScreen.rawValue)
+                }
+            }
+        }
     }
 }
 
