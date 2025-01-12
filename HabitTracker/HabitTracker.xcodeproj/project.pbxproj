@@ -63,6 +63,7 @@
 		6C4DC12D2D345543006B203D /* HomeLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC12C2D345543006B203D /* HomeLoaderView.swift */; };
 		6C4DC1302D3455C3006B203D /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC12F2D3455C3006B203D /* ViewExtension.swift */; };
 		6C4DC1332D3455E9006B203D /* ShimmerEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DC1322D3455E9006B203D /* ShimmerEffect.swift */; };
+		6C4DC1352D34809E006B203D /* LunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C4DC1342D34809E006B203D /* LunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		6C4DC12C2D345543006B203D /* HomeLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeLoaderView.swift; sourceTree = "<group>"; };
 		6C4DC12F2D3455C3006B203D /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		6C4DC1322D3455E9006B203D /* ShimmerEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerEffect.swift; sourceTree = "<group>"; };
+		6C4DC1342D34809E006B203D /* LunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				6C4DC0A22D32A848006B203D /* ContentView.swift */,
 				6C4DC0A42D32A84A006B203D /* Assets.xcassets */,
 				6C4DC0A62D32A84A006B203D /* Preview Content */,
+				6C4DC1342D34809E006B203D /* LunchScreen.storyboard */,
 			);
 			path = HabitTracker;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				6C4DC0A82D32A84A006B203D /* Preview Assets.xcassets in Resources */,
 				6C4DC0E72D32AEE6006B203D /* GoogleService-Info.plist in Resources */,
 				6C4DC0A52D32A84A006B203D /* Assets.xcassets in Resources */,
+				6C4DC1352D34809E006B203D /* LunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,6 +630,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -654,6 +659,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -16,6 +16,7 @@ struct LoginWithEmailView: View {
     @StateObject private var viewModel = LoginWithEmailViewModel(signUpWithEmailUseCase: SignUpWithEmailUseCase(loginRepo: LoginDataRepository()), loginWithEmailUseCase: LoginWithEmailUseCase(loginRepo: LoginDataRepository()))
     @Binding var path: [String]
     @State var appeared: Double = 0.0
+    @State var showLoader: Bool = false
     var body: some View {
             ZStack {
                 VStack(spacing: 0) {
@@ -67,20 +68,27 @@ struct LoginWithEmailView: View {
                         .padding(.bottom, 16)
                     
                     Button {
+                        showLoader = true
                         Task {
                             await viewModel.loginWithEmail(email: email, password: password, userAuthorizationState: userAuthorizationState)
                         }
                     } label: {
                         Text(userAuthorizationState == .signedUp ? "Sign Up" : "Login")
                             .font(.system(size: 20, weight: .bold))
-                            .foregroundStyle(Color("WhiteColor"))
+                            .foregroundStyle(showLoader ? Color.clear : Color("WhiteColor"))
                             .padding(.all, 16)
                             .frame(maxWidth: .infinity)
                             .background {
                                 RoundedRectangle(cornerRadius: 24)
                                     .fill(Color("CustomGreen"))
                                     .frame(height: 50)
-                            }.padding(.horizontal, 24)
+                            }.overlay(content: {
+                                if showLoader{
+                                    ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle())
+                                }
+                            })
+                            .padding(.horizontal, 24)
                             .padding(.bottom, 16)
                     }.buttonStyle(.plain)
                         .disabled(disabledButton)
@@ -104,8 +112,10 @@ struct LoginWithEmailView: View {
         }.onReceive(viewModel.$requestState) {
             switch $0 {
             case .success:
+                showLoader = false
                 path.append("homeView")
             case .failure(msg: let msg):
+                showLoader = false
                 errorMsg = msg
             default:
                 break

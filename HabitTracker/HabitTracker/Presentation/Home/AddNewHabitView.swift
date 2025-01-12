@@ -11,6 +11,7 @@ struct AddNewHabitView: View {
     @Binding var isPresented: Bool
     @State var habitName = ""
     @State var progress  = 0.0
+    @State var showErrorMessageAlert: Bool = false
     @ObservedObject var homeViewModel: HomeViewModel
     
     var body: some View {
@@ -25,7 +26,11 @@ struct AddNewHabitView: View {
                                 .tint(.green)
                         }
                     }
-                }
+                }.alert("Enter Habit name", isPresented: $showErrorMessageAlert, actions: {
+                    Button("Ok", role:.cancel) {
+                        showErrorMessageAlert = false
+                    }
+                })
                 .navigationTitle("Add New Habit")
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
@@ -35,8 +40,12 @@ struct AddNewHabitView: View {
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Save") {
-                             saveHabit()
-                            isPresented = false
+                            if habitName.isEmpty {
+                                showErrorMessageAlert = true
+                            } else {
+                                saveHabit()
+                                isPresented = false
+                            }
                         }
                     }
                 }

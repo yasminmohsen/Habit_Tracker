@@ -16,7 +16,11 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             ZStack {
-                Color.pink
+                Color("CustomGreen").ignoresSafeArea()
+                Text("Habit Tracker")
+                    .font(.system(size: 40))
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color("lightYellow"))
             }.navigationDestination(for: String.self, destination: {
                 if $0 == AppScreen.loginScreen.rawValue {
                     LoginWithEmailView(path: $path)

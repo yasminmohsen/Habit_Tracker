@@ -123,7 +123,7 @@ struct HomeView: View {
                 HabitCardDetails(habit: $currentHabit, shouldDeleteHabit: $shouldDeleteHabit, showHabitDetails: $showHabitDetails, shouldUpdateHabitDetails: $shouldUpdateHabitDetails, showCompletedProgressMsg: $showCompletedProgressMsg)
             }
             if showCompletedProgressMsg {
-                Color.black.opacity(0.5)
+                Color.black.opacity(0.5).ignoresSafeArea()
                 VStack {
                     Text("Congratulations 🎉! You completed \"\(currentHabit?.name ?? "Habit")\" for today.")
                         .font(.system(size: 14, weight: .semibold))
