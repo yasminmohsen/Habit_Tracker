@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HabitCardDetails: View {
-    @Binding var habit: Habit
+    @Binding var habit: Habit?
     @Binding var shouldDeleteHabit: Bool
     @Binding var showHabitDetails: Bool
     @Binding var shouldUpdateHabitDetails: Bool
@@ -31,7 +31,7 @@ struct HabitCardDetails: View {
                     })
                     Spacer()
                 }
-                Text("\(habit.name)")
+                Text("\(habit?.name ?? "Habit")")
                     .font(.system(size: 20, weight: .semibold))
                     .padding(.all, 24)
                 Slider(value: $progress, in: 0...100)
@@ -44,7 +44,7 @@ struct HabitCardDetails: View {
                 
                 HStack {
                     Button {
-                        habit.progress = 100
+                        habit?.progress = 100
                         showHabitDetails = false
                         shouldUpdateHabitDetails = true
                         showCompletedProgressMsg = true
@@ -62,7 +62,7 @@ struct HabitCardDetails: View {
                     Button {
                         showHabitDetails = false
                         shouldUpdateHabitDetails = true
-                        showCompletedProgressMsg =  habit.progress == 100
+                        showCompletedProgressMsg =  habit?.progress == 100
                     } label: {
                         Text("Done")
                             .font(.system(size: 14, weight: .semibold))
@@ -93,9 +93,9 @@ struct HabitCardDetails: View {
             Text("Are you sure you want to delete this habit?")
         })
         .onAppear {
-            progress = Double(habit.progress)
+            progress = Double(habit?.progress ?? 0) 
         }.onChange(of: progress) { _,_ in
-            habit.progress = Int(progress)
+            habit?.progress = Int(progress)
         }
     }
 }

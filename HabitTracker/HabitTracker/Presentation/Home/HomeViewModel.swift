@@ -40,15 +40,13 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
-    func updatingHabit(habitIndex: Int) async {
+    func updatingHabit(habit: Habit) async {
         await MainActor.run { requestState = .loading }
-        let result = await updatingHabitUseCase.execute(habit: habits[habitIndex])
+        let result = await updatingHabitUseCase.execute(habit: habit)
         switch result {
         case .success():
-            await MainActor.run(body: {
-                requestState = .success
-                self.habits = self.habits.sorted { $0.progress > $1.progress }
-            })
+            await MainActor.run(body: {requestState = .success })
+            await fetchingHabits()
         case .failure(let error):
             await MainActor.run(body: { requestState = .failure(msg: error.localizedDescription)})
         }
@@ -68,10 +66,10 @@ final class HomeViewModel: ObservableObject {
             await MainActor.run(body: { requestState = .failure(msg: error.localizedDescription)})
         }
     }
-    func deletingHabit(habitIndex: Int) async {
+    func deletingHabit(habit: Habit) async {
         await MainActor.run { requestState = .loading }
-        let result = await deletingHabitUseCase.execute(habit: habits[habitIndex])
-        self.habits.remove(at: habitIndex)
+        let result = await deletingHabitUseCase.execute(habit: habit)
+        self.habits.removeAll(where: {$0.id == habit.id})
         switch result {
         case .success():
             await MainActor.run(body: { requestState = .success })

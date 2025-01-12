@@ -51,9 +51,17 @@ final class HabitDataRepository: HabitRepository {
     
     func fetchHabits() async throws -> [Habit] {
         guard let currentUserId = currentUserId else { return [] }
+        let calendar = Calendar.current
+           let startOfDay = calendar.startOfDay(for: Date())
+           let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)?.addingTimeInterval(-1) 
+           let startTimestamp = Timestamp(date: startOfDay)
+           let endTimestamp = Timestamp(date: endOfDay ?? startOfDay)
+           
        return try await db.collection(usersCollectionID)
             .document(currentUserId)
             .collection(habitsCollectionID)
+            .whereField("date", isGreaterThanOrEqualTo: startTimestamp)
+            .whereField("date", isLessThanOrEqualTo: endTimestamp)
             .getDocuments()
             .documents.compactMap { document -> Habit? in
             let data = document.data()

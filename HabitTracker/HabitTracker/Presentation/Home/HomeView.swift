@@ -12,11 +12,10 @@ struct HomeView: View {
     @Binding var path: [String]
     @State var shouldDeleteHabit: Bool = false
     @State var showHabitDetails: Bool = false
-    @State var currentIndex: Int = 0
-    
+    @State var currentHabit: Habit? = nil
     @StateObject var homeViewModel = HomeViewModel(addingHabitUseCase: AddingHabitUseCase(habitRepo: HabitDataRepository()), updatingHabitUseCase: UpdatingHabitUseCase(habitRepo: HabitDataRepository()), fetchingHabitsUseCase: FetchingHabitsUseCase(habitRepo: HabitDataRepository()), deletingHabitUseCase: DeletingHabitUseCase(habitRepo: HabitDataRepository()))
     @State var isPresented = false
-    @State var showLoader: Bool = false
+    @State var showLoader: Bool = true
     @State var showErrorMessageAlert: Bool = false
     @State var errorMsg: String = ""
     @State var shouldUpdateHabitDetails = false
@@ -94,7 +93,7 @@ struct HomeView: View {
                                         
                                     }) .padding(.horizontal, 16)
                                 }.onTapGesture {
-                                    currentIndex = index
+                                    currentHabit = homeViewModel.habits[index]
                                     showHabitDetails = true
                                 }
                         }
@@ -120,15 +119,17 @@ struct HomeView: View {
                     }
             }
             if showHabitDetails {
-                HabitCardDetails(habit: $homeViewModel.habits[currentIndex], shouldDeleteHabit: $shouldDeleteHabit, showHabitDetails: $showHabitDetails, shouldUpdateHabitDetails: $shouldUpdateHabitDetails, showCompletedProgressMsg: $showCompletedProgressMsg)
+                HabitCardDetails(habit: $currentHabit, shouldDeleteHabit: $shouldDeleteHabit, showHabitDetails: $showHabitDetails, shouldUpdateHabitDetails: $shouldUpdateHabitDetails, showCompletedProgressMsg: $showCompletedProgressMsg)
             }
             if showCompletedProgressMsg {
+                Color.black.opacity(0.5)
                 VStack {
-                    Text("Congratulations 🎉! You completed \"\(homeViewModel.habits[currentIndex].name)\" for today.")
+                    Text("Congratulations 🎉! You completed \"\(currentHabit?.name ?? "Habit")\" for today.")
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                        .padding()
+                        .multilineTextAlignment(.center)
+                        .padding(.all, 24)
                          
                          Button {
                         showCompletedProgressMsg = false
@@ -142,6 +143,8 @@ struct HomeView: View {
                              .frame(height: 48)
                              .background(.orange.opacity(0.8))
                              .clipShape(RoundedRectangle(cornerRadius: 16))
+                             .padding(.horizontal, 24)
+                             .padding(.bottom , 16)
                 }.background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
                     .padding(.horizontal, 16)
                     .cornerRadius(18)
@@ -157,19 +160,22 @@ struct HomeView: View {
         })
         .onChange(of: shouldDeleteHabit) { _,_ in
                 if shouldDeleteHabit {
+                    guard let currentHabit else { return }
                     Task {
-                        await homeViewModel.deletingHabit(habitIndex: currentIndex)
+                        await homeViewModel.deletingHabit(habit: currentHabit)
                         shouldDeleteHabit.toggle()
                     }
                 }
         }.onChange(of: shouldUpdateHabitDetails, { _, _ in
             if shouldUpdateHabitDetails {
+                guard let currentHabit else { return }
                 Task {
-                    await homeViewModel.updatingHabit(habitIndex: currentIndex)
+                    await homeViewModel.updatingHabit(habit: currentHabit)
                     shouldUpdateHabitDetails.toggle()
                 }
             }
-        }).onReceive(homeViewModel.$requestState) {
+        })
+        .onReceive(homeViewModel.$requestState) {
                 switch $0 {
                 case .loading:
                    showLoader = true
