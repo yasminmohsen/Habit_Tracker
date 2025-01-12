@@ -22,38 +22,46 @@ final class HomeViewModel: ObservableObject {
         self.updatingHabitUseCase = updatingHabitUseCase
         self.fetchingHabitsUseCase = fetchingHabitsUseCase
         self.deletingHabitUseCase = deletingHabitUseCase
-        self.habits = h
+        Task { await fetchingHabits() }
     }
     
     func addingHabit(habit: Habit) async {
-        requestState = .loading
+        await MainActor.run { requestState = .loading }
         let result = await addingHabitUseCase.execute(habit: habit)
         switch result {
         case .success():
-            await MainActor.run(body: { requestState = .success })
+            await MainActor.run(body: {
+                self.habits.append(habit)
+                self.habits = self.habits.sorted { $0.progress > $1.progress }
+                requestState = .success
+            })
         case .failure(let error):
             await MainActor.run(body: { requestState = .failure(msg: error.localizedDescription)})
         }
     }
     
-    func updatingHabit(habit: Habit) async {
-        requestState = .loading
-        let result = await updatingHabitUseCase.execute(habit: habit)
+    func updatingHabit(habitIndex: Int) async {
+        await MainActor.run { requestState = .loading }
+        let result = await updatingHabitUseCase.execute(habit: habits[habitIndex])
         switch result {
         case .success():
-            await MainActor.run(body: { requestState = .success })
+            await MainActor.run(body: {
+                requestState = .success
+                self.habits = self.habits.sorted { $0.progress > $1.progress }
+            })
         case .failure(let error):
             await MainActor.run(body: { requestState = .failure(msg: error.localizedDescription)})
         }
     }
     
-    func fetchingHabits(habit: Habit) async {
-        requestState = .loading
+    func fetchingHabits() async {
+        await MainActor.run { requestState = .loading }
         let result = await fetchingHabitsUseCase.execute()
         switch result {
         case .success(let habits):
             await MainActor.run(body: {
-                self.habits = habits
+                self.habits.removeAll()
+                self.habits = habits.sorted { $0.progress > $1.progress }
                 requestState = .success
             })
         case .failure(let error):
@@ -61,7 +69,7 @@ final class HomeViewModel: ObservableObject {
         }
     }
     func deletingHabit(habitIndex: Int) async {
-        requestState = .loading
+        await MainActor.run { requestState = .loading }
         let result = await deletingHabitUseCase.execute(habit: habits[habitIndex])
         self.habits.remove(at: habitIndex)
         switch result {

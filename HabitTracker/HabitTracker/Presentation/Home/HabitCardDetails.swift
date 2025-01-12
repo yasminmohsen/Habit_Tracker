@@ -11,6 +11,8 @@ struct HabitCardDetails: View {
     @Binding var habit: Habit
     @Binding var shouldDeleteHabit: Bool
     @Binding var showHabitDetails: Bool
+    @Binding var shouldUpdateHabitDetails: Bool
+    @Binding var showCompletedProgressMsg: Bool
     @State var progress: Double = 0.0
     @State var showAlert = false
     var body: some View {
@@ -44,6 +46,8 @@ struct HabitCardDetails: View {
                     Button {
                         habit.progress = 100
                         showHabitDetails = false
+                        shouldUpdateHabitDetails = true
+                        showCompletedProgressMsg = true
                     } label: {
                         Text("Mark as completed")
                             .font(.system(size: 14, weight: .semibold))
@@ -57,6 +61,8 @@ struct HabitCardDetails: View {
                     Spacer()
                     Button {
                         showHabitDetails = false
+                        shouldUpdateHabitDetails = true
+                        showCompletedProgressMsg =  habit.progress == 100
                     } label: {
                         Text("Done")
                             .font(.system(size: 14, weight: .semibold))
@@ -95,5 +101,5 @@ struct HabitCardDetails: View {
 }
 
 #Preview {
-    HabitCardDetails(habit: Binding.constant(Habit(id: "", name: "drink water", progress: 20, date: .now)), shouldDeleteHabit: Binding.constant(false), showHabitDetails: Binding.constant(false))
+    HabitCardDetails(habit: Binding.constant(Habit(id: "", name: "drink water", progress: 20, date: .now)), shouldDeleteHabit: Binding.constant(false), showHabitDetails: Binding.constant(false), shouldUpdateHabitDetails: Binding.constant(false), showCompletedProgressMsg: Binding.constant(false))
 }

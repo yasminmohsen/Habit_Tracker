@@ -13,9 +13,16 @@ struct HomeView: View {
     @State var shouldDeleteHabit: Bool = false
     @State var showHabitDetails: Bool = false
     @State var currentIndex: Int = 0
+    
     @StateObject var homeViewModel = HomeViewModel(addingHabitUseCase: AddingHabitUseCase(habitRepo: HabitDataRepository()), updatingHabitUseCase: UpdatingHabitUseCase(habitRepo: HabitDataRepository()), fetchingHabitsUseCase: FetchingHabitsUseCase(habitRepo: HabitDataRepository()), deletingHabitUseCase: DeletingHabitUseCase(habitRepo: HabitDataRepository()))
+    @State var isPresented = false
+    @State var showLoader: Bool = false
+    @State var showErrorMessageAlert: Bool = false
+    @State var errorMsg: String = ""
+    @State var shouldUpdateHabitDetails = false
+    @State var showCompletedProgressMsg: Bool = false
     var body: some View {
-        ZStack(alignment: .top) {
+        ZStack(alignment: .center) {
             Color.white
             VStack {
                 HStack {
@@ -38,86 +45,144 @@ struct HomeView: View {
                     }
                     Spacer()
                     Button(action: {
-                        
+                        isPresented = true
                     }, label: {
                         Image(systemName: "plus.app.fill")
                             .resizable()
-                            .frame(width: 40, height:  40)
+                            .frame(width: 35, height:  35)
                             .foregroundStyle(Color("CustomGreen"))
                     })
                 }
                 ScrollView {
                     VStack(content: {
+                        if showLoader && homeViewModel.habits.isEmpty {
+                           HomeLoaderView()
+                        } else {
                         ForEach(homeViewModel.habits.indices, id: \.self) { index in
-                            RoundedRectangle(cornerRadius: 12)
+                            RoundedRectangle(cornerRadius: 24)
                                 .fill(Color("lightYellow").opacity(0.6))
-                                .frame(height: 100)
+                                .frame(height: 80)
                                 .overlay {
                                     HStack(content: {
                                         Text("\(homeViewModel.habits[index].name)")
                                             .foregroundStyle(Color.black)
                                             .font(.system(size: 18, weight: .semibold))
-                                           
+                                        
                                         Spacer()
                                         if homeViewModel.habits[index].isCompleted {
                                             Image(systemName: "checkmark.shield.fill")
                                                 .resizable()
                                                 .frame(width: 24, height: 24)
                                                 .foregroundStyle(Color("CustomGreen"))
-
+                                            
                                         } else {
                                             ZStack {
                                                 Circle()
                                                     .stroke(lineWidth:3 )
                                                     .foregroundColor(.white)
                                                     .frame(width: 24, height: 24)
-                                
+                                                
                                                 Circle()
                                                     .trim(from: 0.0, to: Double(homeViewModel.habits[index].progress) / 100.0)
                                                     .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                                                     .foregroundColor(.cyan)
                                                     .frame(width:24, height: 24)
-                                
+                                                
                                                     .rotationEffect(.degrees(-90))
                                             }
                                         }
-                    
+                                        
                                     }) .padding(.horizontal, 16)
                                 }.onTapGesture {
                                     currentIndex = index
-                                   showHabitDetails = true
+                                    showHabitDetails = true
                                 }
                         }
+                    }
                     })
+                }.refreshable {
+                    Task { await homeViewModel.fetchingHabits() }
                 }
             }.padding(.horizontal, 20)
-            if homeViewModel.habits.isEmpty {
-                VStack {
-                    Spacer()
-                    Image("emptyScreen")
-                        .resizable()
-                        .frame(height: 300)
-                        .opacity(0.6)
-                    
-                    Text("No Habits")
-                        .font(.title)
-                        .fontWeight(.light)
-                        .foregroundStyle(Color.gray)
-                    Spacer()
-                }
-
+             if homeViewModel.habits.isEmpty && !showLoader {
+                    VStack {
+                        Spacer()
+                        Image("emptyScreen")
+                            .resizable()
+                            .frame(height: 300)
+                            .opacity(0.6)
+                        
+                        Text("No Habits")
+                            .font(.title)
+                            .fontWeight(.light)
+                            .foregroundStyle(Color.gray)
+                        Spacer()
+                    }
             }
             if showHabitDetails {
-                HabitCardDetails(habit: $homeViewModel.habits[currentIndex], shouldDeleteHabit: $shouldDeleteHabit, showHabitDetails: $showHabitDetails)
+                HabitCardDetails(habit: $homeViewModel.habits[currentIndex], shouldDeleteHabit: $shouldDeleteHabit, showHabitDetails: $showHabitDetails, shouldUpdateHabitDetails: $shouldUpdateHabitDetails, showCompletedProgressMsg: $showCompletedProgressMsg)
             }
-        }.navigationBarBackButtonHidden()
-            .onChange(of: shouldDeleteHabit) { _,_ in
+            if showCompletedProgressMsg {
+                VStack {
+                    Text("Congratulations 🎉! You completed \"\(homeViewModel.habits[currentIndex].name)\" for today.")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                         
+                         Button {
+                        showCompletedProgressMsg = false
+                         } label: {
+                             Text("Done")
+                                 .font(.system(size: 14, weight: .semibold))
+                                 .foregroundColor(.white)
+                                 .frame(maxWidth: .infinity)
+                                 .padding()
+                         }.buttonStyle(PlainButtonStyle())
+                             .frame(height: 48)
+                             .background(.orange.opacity(0.8))
+                             .clipShape(RoundedRectangle(cornerRadius: 16))
+                }.background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
+                    .padding(.horizontal, 16)
+                    .cornerRadius(18)
+            }
+        }.sheet(isPresented: $isPresented, content: {
+            AddNewHabitView(isPresented: $isPresented, homeViewModel: self.homeViewModel)
+        })
+        .navigationBarBackButtonHidden()
+        .alert("", isPresented: $showErrorMessageAlert, actions: { 
+            Button("Ok", role:.cancel) {
+                showErrorMessageAlert = false
+            }
+        })
+        .onChange(of: shouldDeleteHabit) { _,_ in
                 if shouldDeleteHabit {
                     Task {
                         await homeViewModel.deletingHabit(habitIndex: currentIndex)
                         shouldDeleteHabit.toggle()
                     }
                 }
+        }.onChange(of: shouldUpdateHabitDetails, { _, _ in
+            if shouldUpdateHabitDetails {
+                Task {
+                    await homeViewModel.updatingHabit(habitIndex: currentIndex)
+                    shouldUpdateHabitDetails.toggle()
+                }
+            }
+        }).onReceive(homeViewModel.$requestState) {
+                switch $0 {
+                case .loading:
+                   showLoader = true
+                case .failure(msg: let msg):
+                    errorMsg = msg
+                    showErrorMessageAlert = true
+                default:
+                    showLoader = false
+                    break
+                }
+            }
+            .onAppear {
+               
             }
     }
 }

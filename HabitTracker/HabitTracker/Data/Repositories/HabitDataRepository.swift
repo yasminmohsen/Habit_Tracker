@@ -19,7 +19,8 @@ final class HabitDataRepository: HabitRepository {
         try await db.collection(usersCollectionID)
             .document(currentUserId)
             .collection(habitsCollectionID)
-            .addDocument(data: [
+            .document(habit.id)
+            .setData([
                 "name": habit.name,
                 "progress": habit.progress,
                 "date": Timestamp(date: habit.date)
