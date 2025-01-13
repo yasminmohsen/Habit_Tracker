@@ -161,15 +161,14 @@
 				6C4DC12E2D3455AA006B203D /* Extensions */,
 				6C4DC10F2D33BD61006B203D /* Enum */,
 				6C4DC1022D32EA2B006B203D /* States */,
-				6C4DC0E62D32AEE6006B203D /* GoogleService-Info.plist */,
 				6C4DC0B02D32A8C0006B203D /* Data */,
 				6C4DC0AF2D32A8BD006B203D /* Domain */,
 				6C4DC0AE2D32A8BA006B203D /* Presentation */,
 				6C4DC0A02D32A848006B203D /* HabitTrackerApp.swift */,
-				6C4DC0A22D32A848006B203D /* ContentView.swift */,
-				6C4DC0A42D32A84A006B203D /* Assets.xcassets */,
-				6C4DC0A62D32A84A006B203D /* Preview Content */,
 				6C4DC1342D34809E006B203D /* LunchScreen.storyboard */,
+				6C4DC0A42D32A84A006B203D /* Assets.xcassets */,
+				6C4DC0E62D32AEE6006B203D /* GoogleService-Info.plist */,
+				6C4DC0A62D32A84A006B203D /* Preview Content */,
 			);
 			path = HabitTracker;
 			sourceTree = "<group>";
@@ -185,6 +184,7 @@
 		6C4DC0AE2D32A8BA006B203D /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				6C4DC1382D349BE3006B203D /* ContentView */,
 				6C4DC0E52D32AE31006B203D /* Login */,
 				6C4DC0B12D32A8DA006B203D /* Home */,
 			);
@@ -376,6 +376,14 @@
 				6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6C4DC1382D349BE3006B203D /* ContentView */ = {
+			isa = PBXGroup;
+			children = (
+				6C4DC0A22D32A848006B203D /* ContentView.swift */,
+			);
+			path = ContentView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

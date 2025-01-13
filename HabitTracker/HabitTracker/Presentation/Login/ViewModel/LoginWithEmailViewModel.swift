@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 final class LoginWithEmailViewModel: ObservableObject {
     //MARK: - Use cases :
     private let signUpWithEmailUseCase: ISignUpWithEmailUseCase

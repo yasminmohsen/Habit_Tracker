@@ -74,6 +74,7 @@ struct AddNewHabitView: View {
         let habit = Habit(name: habitName, progress: Int(progress), date: .now)
         Task {
               await homeViewModel.addingHabit(habit: habit)
+              isPresented = false
             }
         }
     }
