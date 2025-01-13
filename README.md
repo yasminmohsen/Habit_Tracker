@@ -15,8 +15,8 @@ This project is a habit-tracking application implemented using **MVVM Clean Arch
 - **Firebase Integration**
    - **Authentication**: Secure login and registration using Firebase Authentication.
    - **Database**: Habits are stored and managed on Firestore.
-     
- ## Workflow
+   
+## Workflow
 - **Login Flow**
     1. Launch the app and access the login screen.
     2. Enter the provided test credentials or register with a new email and password.
@@ -34,7 +34,7 @@ This project is a habit-tracking application implemented using **MVVM Clean Arch
       1. Tap the Edit button on a habit card.
       2. Update the habit's progress, mark it as completed, or delete it from the list.
      
-  ## Setup Instructions
+## Setup Instructions
    1. Clone the repository to your local machine.
    2. Open the project in Xcode.
    3. Ensure you have the latest version of Xcode installed (supports SwiftUI and concurrency).
