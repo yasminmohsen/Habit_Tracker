@@ -58,7 +58,7 @@ struct HomeView: View {
                             .frame(width: 35, height:  35)
                             .foregroundStyle(Color("CustomGreen"))
                     })
-                }
+                }.padding(.top, 16)
                 ScrollView {
                     VStack(content: {
                         /// Placeholder collection

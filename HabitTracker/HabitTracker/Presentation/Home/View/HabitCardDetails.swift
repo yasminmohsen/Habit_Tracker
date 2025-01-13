@@ -59,6 +59,7 @@ struct HabitCardDetails: View {
                     } label: {
                         Text("Mark as completed")
                             .font(.system(size: 14, weight: .semibold))
+                            .minimumScaleFactor(0.5)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -75,6 +76,7 @@ struct HabitCardDetails: View {
                     } label: {
                         Text("Done")
                             .font(.system(size: 14, weight: .semibold))
+                            .minimumScaleFactor(0.5)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()

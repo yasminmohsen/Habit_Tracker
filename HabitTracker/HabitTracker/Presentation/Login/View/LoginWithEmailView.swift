@@ -27,11 +27,12 @@ struct LoginWithEmailView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
+                Spacer()
                 Image("HabitImage")
                     .resizable()
                     .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
                     .frame(width: UIScreen.main.bounds.width, height: 100)
-                    .padding(.top, 200)
+                   // .padding(.top, 200)
                 Spacer()
                 ///Email textField
                 TextField("Email", text: $email)
@@ -139,6 +140,6 @@ struct LoginWithEmailView: View {
     }
 }
 
-//#Preview {
-//    LoginWithEmailView(path: Binding.constant([]))
-//}
+#Preview {
+    LoginWithEmailView(path: Binding.constant([]))
+}
