@@ -71,39 +71,66 @@ struct HomeView: View {
                                 RoundedRectangle(cornerRadius: 24)
                                     .fill(Color("lightYellow").opacity(0.6))
                                     .frame(height: 80)
+                                    .frame(maxHeight: 200)
                                     .overlay {
                                         HStack(content: {
                                             ///Habit name
-                                            Text("\(homeViewModel.habits[index].name)")
-                                                .foregroundStyle(Color.black)
+                                            VStack(alignment: .leading, spacing: 0) {
+                                                Text("\(homeViewModel.habits[index].name)")
+                                                    .foregroundStyle(Color.black)
                                                 .font(.system(size: 18, weight: .semibold))
-                                            Spacer()
-                                            ///Habit progress indicator
-                                            if homeViewModel.habits[index].isCompleted {
-                                                Image(systemName: "checkmark.shield.fill")
-                                                    .resizable()
-                                                    .frame(width: 24, height: 24)
-                                                    .foregroundStyle(Color("CustomGreen"))
-                                            } else {
-                                                ZStack {
-                                                    Circle()
-                                                        .stroke(lineWidth:3 )
-                                                        .foregroundColor(.white)
-                                                        .frame(width: 24, height: 24)
-                                                    Circle()
-                                                        .trim(from: 0.0, to: Double(homeViewModel.habits[index].progress) / 100.0)
-                                                        .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
-                                                        .foregroundColor(Color("CustomGreen"))
-                                                        .frame(width:24, height: 24)
-                                                        .rotationEffect(.degrees(-90))
-                                                }
+                                                .multilineTextAlignment(.leading)
+                                                .padding(.vertical, 8)
+                                                HStack {
+                                                    ///Habit progress indicator
+                                                    if homeViewModel.habits[index].isCompleted {
+                                                        Text("Completed!")
+                                                            .font(.system(size: 10, weight: .bold))
+                                                            .foregroundStyle(Color.gray)
+                                                        Image(systemName: "checkmark.shield.fill")
+                                                            .resizable()
+                                                            .frame(width: 18, height: 18)
+                                                            .foregroundStyle(Color("CustomGreen"))
+                                                    } else {
+                                                        Text("Progress level:")
+                                                            .font(.system(size: 10, weight: .bold))
+                                                            .foregroundStyle(Color.gray)
+                                                        ZStack {
+                                                            Circle()
+                                                                .stroke(lineWidth:3 )
+                                                                .foregroundColor(.white)
+                                                                .frame(width: 18, height: 18)
+                                                            Circle()
+                                                                .trim(from: 0.0, to: Double(homeViewModel.habits[index].progress) / 100.0)
+                                                                .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                                                                .foregroundColor(Color("CustomGreen"))
+                                                                .frame(width:18, height: 18)
+                                                                .rotationEffect(.degrees(-90))
+                                                        }
+                                                    }
+                                                    Spacer()
+                                                }.padding(.bottom, 8)
                                             }
+                                            Spacer()
+                                           
+                                            Button {
+                                                currentHabit = homeViewModel.habits[index]
+                                                showHabitDetails = true
+                                            } label: {
+                                                Text("Edit")
+                                                    .foregroundColor(Color("CustomGreen"))
+                                                    .frame(width: 69, height: 32)
+                                                    .font(.system(size: 12, weight: .semibold))
+                                                    .background(RoundedRectangle(cornerRadius: 8, style: .continuous).fill(Color.white))
+                                                    .overlay(
+                                                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                                            .strokeBorder((Color("CustomGreen")), lineWidth: 2))
                                             
+                                            }.buttonStyle(PlainButtonStyle())
+                                            .frame(height: 28)
+
                                         }) .padding(.horizontal, 16)
-                                        /// Actions on each habit
-                                    }.onTapGesture {
-                                        currentHabit = homeViewModel.habits[index]
-                                        showHabitDetails = true
+                                      
                                     }
                             }
                         }
