@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeLoaderView: View {
+    //MARK: - States
     @State private var opacity: Double = 0.2
     
     //MARK: - Body
@@ -19,10 +20,10 @@ struct HomeLoaderView: View {
                     .frame(height: 80)
                     .setShimmerEffect(opacity: $opacity)
             }
-        }.onAppear {
-            self.opacity = 0.2
-        }
-        .padding([.top], 10)
+        }.padding([.top], 10)
+            .onAppear {
+                self.opacity = 0.2
+            }
     }
 }
 

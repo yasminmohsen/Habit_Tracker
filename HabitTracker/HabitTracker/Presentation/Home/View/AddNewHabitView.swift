@@ -8,27 +8,42 @@
 import SwiftUI
 
 struct AddNewHabitView: View {
-    @Binding var isPresented: Bool
-    @State var habitName = ""
-    @State var progress  = 0.0
-    @State var showErrorMessageAlert: Bool = false
+    //MARK: - State
+    @State private var habitName = ""
+    @State private var progress  = 0.0
+    @State private var showInputErrorMessageAlert: Bool = false
+    @State private var showRequestErrorMessageAlert: Bool = false
+    @State private var showLoader: Bool = false
+    @State private var errorMsg: String = ""
+    
+    //MARK: - ObservedObjects
     @ObservedObject var homeViewModel: HomeViewModel
     
+    //MARK: - Bindings
+    @Binding var isPresented: Bool
+   
+    //MARK: - View
     var body: some View {
             NavigationView {
                 Form {
                     Section(header: Text("Habit Details")) {
+                        ///Habit name textField
                         TextField("Habit Name", text: $habitName)
                         HStack {
+                            ///Habit progress
                             Text("Progress: \(progress, specifier: "%.0f")")
                             Slider(value: $progress, in: 0...100)
                                 .padding(.horizontal, 24)
                                 .tint(.green)
                         }
                     }
-                }.alert("Enter Habit name", isPresented: $showErrorMessageAlert, actions: {
+                }.alert("Enter Habit name", isPresented: $showInputErrorMessageAlert, actions: {
                     Button("Ok", role:.cancel) {
-                        showErrorMessageAlert = false
+                        showInputErrorMessageAlert = false
+                    }
+                }).alert("\(errorMsg)", isPresented: $showRequestErrorMessageAlert, actions: {
+                    Button("Ok", role:.cancel) {
+                        showRequestErrorMessageAlert = false
                     }
                 })
                 .navigationTitle("Add New Habit")
@@ -41,17 +56,21 @@ struct AddNewHabitView: View {
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Save") {
                             if habitName.isEmpty {
-                                showErrorMessageAlert = true
+                                showInputErrorMessageAlert = true
                             } else {
                                 saveHabit()
-                                isPresented = false
+                               
                             }
                         }
                     }
                 }
+                if showLoader {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                }
             }
         }
-    func saveHabit() {
+    private func saveHabit() {
         let habit = Habit(name: habitName, progress: Int(progress), date: .now)
         Task {
               await homeViewModel.addingHabit(habit: habit)

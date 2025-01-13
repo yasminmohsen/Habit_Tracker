@@ -8,18 +8,24 @@
 import SwiftUI
 
 struct HabitCardDetails: View {
+    //MARK: - States
+    @State private var progress: Double = 0.0
+    @State private var showAlert = false
+    
+    //MARK: - Bindings
     @Binding var habit: Habit?
     @Binding var shouldDeleteHabit: Bool
     @Binding var showHabitDetails: Bool
     @Binding var shouldUpdateHabitDetails: Bool
     @Binding var showCompletedProgressMsg: Bool
-    @State var progress: Double = 0.0
-    @State var showAlert = false
+   
+    //MARK: - View
     var body: some View {
         ZStack {
             Color.black.opacity(0.5).ignoresSafeArea()
             VStack {
                 HStack {
+                    ///Delete habit action
                     Button(action: {
                         showAlert = true
                     }, label: {
@@ -31,9 +37,11 @@ struct HabitCardDetails: View {
                     })
                     Spacer()
                 }
+                ///Habit name
                 Text("\(habit?.name ?? "Habit")")
                     .font(.system(size: 20, weight: .semibold))
                     .padding(.all, 24)
+                ///Habit Progress
                 Slider(value: $progress, in: 0...100)
                     .padding(.horizontal, 24)
                     .tint(.green)
@@ -41,8 +49,8 @@ struct HabitCardDetails: View {
                     .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(Color.black)
                     .padding(.all, 8)
-                
                 HStack {
+                    /// Mark as completed button
                     Button {
                         habit?.progress = 100
                         showHabitDetails = false
@@ -59,6 +67,7 @@ struct HabitCardDetails: View {
                         .background(Color("CustomGreen"))
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                     Spacer()
+                    /// Done button
                     Button {
                         showHabitDetails = false
                         shouldUpdateHabitDetails = true
@@ -73,13 +82,11 @@ struct HabitCardDetails: View {
                         .frame(height: 48)
                         .background(.orange.opacity(0.8))
                         .clipShape(RoundedRectangle(cornerRadius: 16))
-                    
                 }.padding(.all, 16)
-                
             }.background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
                 .padding(.horizontal, 16)
                 .cornerRadius(18)
-        }.alert("", isPresented: $showAlert, actions: {
+        }.alert("", isPresented: $showAlert, actions: { // Deleting alert
             Button("Yes") {
                 shouldDeleteHabit = true
                 showHabitDetails = false
@@ -92,9 +99,12 @@ struct HabitCardDetails: View {
         }, message: {
             Text("Are you sure you want to delete this habit?")
         })
+        ///LifeCycle methods
         .onAppear {
             progress = Double(habit?.progress ?? 0) 
-        }.onChange(of: progress) { _,_ in
+        }
+        ///Change observer
+        .onChange(of: progress) { _,_ in
             habit?.progress = Int(progress)
         }
     }

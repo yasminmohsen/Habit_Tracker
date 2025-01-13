@@ -213,11 +213,8 @@
 		6C4DC0B12D32A8DA006B203D /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				6C4DC1052D32EE1B006B203D /* HomeView.swift */,
-				6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */,
-				6C4DC1242D343638006B203D /* HabitCardDetails.swift */,
-				6C4DC1282D3448A7006B203D /* AddNewHabitView.swift */,
-				6C4DC12C2D345543006B203D /* HomeLoaderView.swift */,
+				6C4DC1372D348F1E006B203D /* ViewModel */,
+				6C4DC1362D348F08006B203D /* View */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -360,6 +357,25 @@
 				6C4DC1322D3455E9006B203D /* ShimmerEffect.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		6C4DC1362D348F08006B203D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6C4DC1052D32EE1B006B203D /* HomeView.swift */,
+				6C4DC1242D343638006B203D /* HabitCardDetails.swift */,
+				6C4DC1282D3448A7006B203D /* AddNewHabitView.swift */,
+				6C4DC12C2D345543006B203D /* HomeLoaderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6C4DC1372D348F1E006B203D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6C4DC1222D33E0EA006B203D /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

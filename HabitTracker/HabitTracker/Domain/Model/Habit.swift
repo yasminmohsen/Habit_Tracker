@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Habit: Identifiable, Codable {
+struct Habit: Identifiable {
     var id: String = "\(UUID())"
     var name: String
     var progress: Int
     var isCompleted: Bool {
-       progress == 100
+        progress == 100
     }
     let date: Date
 }

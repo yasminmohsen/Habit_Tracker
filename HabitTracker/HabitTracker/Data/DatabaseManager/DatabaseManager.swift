@@ -8,10 +8,14 @@
 import Foundation
 
 final class DatabaseManager {
+    //MARK: - Properties
     static let shared = DatabaseManager()
-    public let USER_KEY = "UserKey"
+    private let USER_KEY = "UserKey"
+    
+    //MARK: - Initializer-SingleTone
     private init() {}
     
+    //MARK: - Helpers
     func saveUserID(userID: String?) {
         UserDefaults.standard.set(userID, forKey: USER_KEY)
     }

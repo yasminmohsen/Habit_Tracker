@@ -8,27 +8,30 @@
 import Foundation
 
 final class LoginWithEmailViewModel: ObservableObject {
-    
-    @Published var requestState: RequestState = .non
-    
+    //MARK: - Use cases :
     private let signUpWithEmailUseCase: ISignUpWithEmailUseCase
     private let loginWithEmailUseCase: ILoginWithEmailUseCase
     
+    //MARK: - Publishers
+    @Published var requestState: RequestState = .non
+
+    //MARK: - Initializer
     init(signUpWithEmailUseCase: ISignUpWithEmailUseCase, loginWithEmailUseCase: ILoginWithEmailUseCase) {
         self.signUpWithEmailUseCase = signUpWithEmailUseCase
         self.loginWithEmailUseCase = loginWithEmailUseCase
     }
     
+    //MARK: - Helpers
     func loginWithEmail(email: String, password: String, userAuthorizationState: UserAuthorizationState) async {
-        await MainActor.run {
-            requestState = .loading
-        }
+        requestState = .loading
+        
         let result = userAuthorizationState == .signedUp ? await signUpWithEmailUseCase.execute(email: email, password: password) : await loginWithEmailUseCase.execute(email: email, password: password)
+       
         switch result {
         case .success(let _):
-            await MainActor.run { self.requestState = .success }
+           self.requestState = .success
         case .failure(let error):
-            await MainActor.run { self.requestState = .failure(msg: error.localizedDescription) }
+         self.requestState = .failure(msg: error.localizedDescription)
         }
     }
 }

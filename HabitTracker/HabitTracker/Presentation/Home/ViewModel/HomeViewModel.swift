@@ -9,14 +9,17 @@ import Foundation
 
 @MainActor
 final class HomeViewModel: ObservableObject {
-    @Published var requestState: RequestState = .non
-    @Published var habits: [Habit] = []
-    
+    //MARK: - Use cases :
     let addingHabitUseCase: IAddingHabitUseCase
     let updatingHabitUseCase: IUpdatingHabitUseCase
     let fetchingHabitsUseCase: IFetchingHabitsUseCase
     let deletingHabitUseCase: IDeletingHabitUseCase
     
+    //MARK: - Publishers
+    @Published var requestState: RequestState = .non
+    @Published var habits: [Habit] = []
+    
+    //MARK: - Initializer
     init(addingHabitUseCase: IAddingHabitUseCase, updatingHabitUseCase: IUpdatingHabitUseCase, fetchingHabitsUseCase: IFetchingHabitsUseCase, deletingHabitUseCase: IDeletingHabitUseCase) {
         self.addingHabitUseCase = addingHabitUseCase
         self.updatingHabitUseCase = updatingHabitUseCase
@@ -25,6 +28,7 @@ final class HomeViewModel: ObservableObject {
         Task { await fetchingHabits() }
     }
     
+    //MARK: - Helpers
     func addingHabit(habit: Habit) async {
         requestState = .loading
         let result = await addingHabitUseCase.execute(habit: habit)
@@ -62,6 +66,7 @@ final class HomeViewModel: ObservableObject {
           requestState = .failure(msg: error.localizedDescription)
         }
     }
+    
     func deletingHabit(habit: Habit) async {
       requestState = .loading
         let result = await deletingHabitUseCase.execute(habit: habit)

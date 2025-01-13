@@ -10,5 +10,5 @@ import Foundation
 protocol LoginRepository {
     func signUp(email: String, password: String) async throws -> User
     func login(email: String, password: String) async throws -> User
-    func signOut() async throws
+    func signOut() throws
 }
